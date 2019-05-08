@@ -6,6 +6,8 @@ Vagrantfile already has the Ansible provisioner configured, we just need to add 
 
 # Steps
 
+This are the steps taken by the Ansible play and reasoning
+
 ### Pre-reqs
 
 1. Add the runit yum repo using Ansible. Its a bad idea to add 3rd party yum repos and even worse to use a 3rd party script. Looks like their script even installs some rpm's, thats no a no go. We add the repo using pure Ansible. If we are already using Ansible, we should manage everything with it end-to-end. In a production system we would mirror the repo or put the rpm into our own private yum repo.
