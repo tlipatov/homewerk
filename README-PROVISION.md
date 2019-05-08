@@ -2,11 +2,11 @@
 
 This provisions a Virtualbox VM using Vagrant and ansible
 
-Vagrantfile already has the Ansible provisioner configured, we just need to add more tasks
+Vagrantfile already has the Ansible provisioner configured, we just need to add more Ansible playbook tasks
 
 # Steps
 
-This are the steps taken by the Ansible play and reasoning
+These are the steps taken by the Ansible playboon and reasoning
 
 ### Pre-reqs
 
