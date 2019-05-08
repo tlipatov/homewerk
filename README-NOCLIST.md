@@ -18,8 +18,7 @@ Application source is in `src/badsec/main.py`
 
 This will create a docker container `badsec:latest` with the application
  ```shell
-unzip badsec.zip
-cd badsec
+cd noclist
 make
 ```
 
