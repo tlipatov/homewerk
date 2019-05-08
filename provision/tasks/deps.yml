@@ -1,0 +1,30 @@
+---
+- name: add runit yum repo
+  yum_repository:
+    name: imeyer_runit
+    description: imeyer_runit
+    baseurl: https://packagecloud.io/imeyer/runit/el/6/$basearch
+    gpgkey: https://packagecloud.io/imeyer/runit/gpgkey
+    gpgcheck: no
+    repo_gpgcheck: yes
+    sslverify: yes
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+    enabled: yes
+    metadata_expire: 300
+
+- name: update system
+  yum: name=* state=latest
+
+- name: install dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - unzip
+    - libselinux-python
+    - openssl
+    - pygpgme
+    - yum-utils
+    - nginx
+    - runit
+

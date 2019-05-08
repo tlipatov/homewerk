@@ -1,0 +1,43 @@
+---
+- name: Create ssl group
+  group:
+    name: ssl
+    state: present
+    gid: 496
+
+- name: Add nginx to ssl group 
+  user: 
+    name: nginx
+    groups: ssl
+    append: yes
+
+- name: Create /etc/nginx/ssl dir and set permissions
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    owner: root
+    group: ssl
+    mode: 0710
+
+- name: Copy SSL Certificate and set permissions
+  copy: 
+    src: "files/{{ item }}"
+    dest: /etc/nginx/ssl/
+    mode: 0640
+    owner: root
+    group: ssl
+  loop:
+    - self-signed.crt
+    - self-signed.key
+
+- name: Copy nginx.conf
+  copy: 
+    src: config/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Start service nginx, if not started
+  service:
+    name: nginx
+    enabled: yes
+    state: started
+

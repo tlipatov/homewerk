@@ -1,0 +1,57 @@
+---
+- name: create group app
+  group:
+    name: app
+    gid: 6666
+
+- name: create user app
+  user:
+    name: app
+    comment: Application
+    shell: /sbin/nologin
+    uid: 6666
+    group: app
+
+- name: extract application.zip into /opt
+  unarchive:
+    src: application.zip
+    dest: /opt
+    owner: root
+    group: app
+
+- name: set app dir owner
+  file:
+    path: /opt/application
+    state: directory
+    owner: root
+    group: app
+    mode: 0750
+
+- name: create runit service dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+  loop:
+    - /etc/sv
+    - /etc/sv/app
+
+## Patch provided run script
+- name: patch run script
+  lineinfile:
+    path: /opt/application/run
+    regexp: '^exec'
+    line: 'exec chpst -uapp python server.py </dev/null >/dev/null 2>&1'
+
+- name: symlink run script
+  file:
+    src: /opt/application/run
+    dest: /etc/sv/app/run
+    state: link
+
+- name: symlink runit service
+  file:
+    src: /etc/sv/app
+    dest: /etc/service/app
+    state: link
+
